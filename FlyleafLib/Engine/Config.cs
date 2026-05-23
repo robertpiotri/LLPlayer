@@ -339,6 +339,10 @@ public class Config : NotifyPropertyChanged
         /// </summary>
         public long     SeekAccurateFixMargin       { get; set => Set(ref field, value); } = TimeSpan.FromMilliseconds(0).Ticks;
 
+        /// Allows off-screen (e.g. when minimized) snapshots but might affect performance
+        /// </summary>
+        public bool     SnapshotAlways              { get; set; }
+
         /// <summary>
         /// Snapshot encoding will be used (valid formats bmp, png, jpg/jpeg)
         /// </summary>

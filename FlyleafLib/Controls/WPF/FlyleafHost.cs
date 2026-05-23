@@ -139,7 +139,7 @@ public class FlyleafHost : ContentControl, IHostPlayer, IDisposable
     static bool         isDesignMode;
     static int          idGenerator = 1;
     static WindowStyles NONE_STYLE      = WindowStyles.WS_MINIMIZEBOX | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_VISIBLE; // WS_MINIMIZEBOX required for swapchain
-    
+
     double              curResizeRatio;
     bool                surfaceClosed, surfaceClosing, overlayClosed;
     double              panPrevX, panPrevY;
@@ -848,13 +848,16 @@ public class FlyleafHost : ContentControl, IHostPlayer, IDisposable
     {
         if (e.OriginalSource == Owner && IsAttached)
         {
-            rectInitLast = rectIntersectLast = Rect.Empty;
-            DpiX = e.NewDpi.DpiScaleX;
-            DpiY = e.NewDpi.DpiScaleY;
-            DpiXSource = e.NewDpi.PixelsPerInchX;
-            DpiYSource = e.NewDpi.PixelsPerInchY;
-            ResizeRatio();
-            RefreshBitmapSubtitlesDpi();
+            Dispatcher.InvokeAsync(() =>
+            {   // #692 - Dispatcher/Delay required to ensure it will catch the update
+                rectInitLast = rectIntersectLast = Rect.Empty;
+                DpiX = e.NewDpi.DpiScaleX;
+                DpiY = e.NewDpi.DpiScaleY;
+                DpiXSource = e.NewDpi.PixelsPerInchX;
+                DpiYSource = e.NewDpi.PixelsPerInchY;
+                ResizeRatio();
+                RefreshBitmapSubtitlesDpi();
+            });
         }
     }
 
@@ -941,13 +944,13 @@ public class FlyleafHost : ContentControl, IHostPlayer, IDisposable
             }
 
             //Log.Error($"{rectInit} | {rectIntersect}");
-            
+
             if (rectInit != rectInitLast)
             {
                 rectInitLast = rectInit;
                 SetRect(rectInit);
             }
-            
+
             if (rectIntersect != Rect.Empty)
             {
                 rectIntersect.X -= rectInit.X;
@@ -1596,7 +1599,7 @@ public class FlyleafHost : ContentControl, IHostPlayer, IDisposable
             Surface.AllowsTransparency = scb.Color.A < 255;
         else
             Surface.AllowsTransparency = true; // Non-solid consider true?
-        
+
         // When using ItemsControl with ObservableCollection<Player> to fill DataTemplates with FlyleafHost EnsureHandle will call Host_loaded
         if (_IsAttached) Loaded -= Host_Loaded;
         SurfaceHandle = new WindowInteropHelper(Surface).EnsureHandle();
