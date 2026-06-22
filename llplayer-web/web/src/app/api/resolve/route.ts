@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { resolveVideo, isYouTubeUrl, ResolveError } from "@/lib/ytdlp";
+import { resolveVideo, isYouTubeUrl, ResolveError, pickDefaultEnglish } from "@/lib/ytdlp";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -25,12 +25,16 @@ export async function POST(request: NextRequest) {
 
   try {
     const v = await resolveVideo(url);
+    const def = pickDefaultEnglish(v.subs);
     return Response.json({
       id: v.id,
       title: v.title,
       duration: v.duration,
       width: v.width,
       height: v.height,
+      // Bez vttUrl — same metadane do wyboru jezyka.
+      subs: v.subs.map((s) => ({ lang: s.lang, name: s.name, auto: s.auto })),
+      defaultSub: def ? { lang: def.lang, auto: def.auto } : null,
     });
   } catch (e) {
     if (e instanceof ResolveError && e.code === "PROGRESSIVE_UNAVAILABLE") {

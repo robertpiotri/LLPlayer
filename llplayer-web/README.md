@@ -63,7 +63,8 @@ biznesową i kryteria akceptacji, nie implementację.
 
 - Faza 0 (walidacja i zakres) — **zamknięta**.
 - Faza 1 (oglądanie filmu z linku YouTube) — **zrobiona** (w `web/`).
-- Następny krok: Faza 2 (napisy ze źródła).
+- Faza 2 (napisy ze źródła, EN, własna warstwa) — **zrobiona**.
+- Następny krok: Faza 3 (napisy dwujęzyczne EN + PL).
 
 ## Uruchomienie (dev)
 

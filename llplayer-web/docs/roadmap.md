@@ -61,7 +61,17 @@ aplikacji. Fundament, bez którego reszta nie ma sensu.
 
 ---
 
-## Faza 2 — Napisy pobierane ze źródła
+## Faza 2 — Napisy pobierane ze źródła ✅ ZROBIONA
+
+**Status:** zaimplementowana. `resolve` zwraca listę napisów (ręczne + auto),
+parser WebVTT (`lib/vtt.ts`) czyści tagi i scala powtórki, endpoint `/api/subs`
+pobiera i parsuje wybrany język, a strona renderuje własną warstwę napisów
+zsynchronizowaną z `currentTime`. Domyślnie wybierany jest angielski.
+Zweryfikowane: napisy EN (6 cue'ów) i DE z poprawnymi czasami, przełączanie
+języka, brak napisów → komunikat, błędne parametry → 400/404.
+
+**Uwaga:** testowano na czystych napisach ręcznych. Jakość auto-napisów
+(tagi słowne, rolling) zostanie dopieszczona przy Fazie 3 na filmie z auto-PL.
 
 **Cel biznesowy:** Pierwsza wartość edukacyjna — oglądam z napisami angielskimi
 pobranymi automatycznie z YouTube, bez ręcznego dostarczania plików.

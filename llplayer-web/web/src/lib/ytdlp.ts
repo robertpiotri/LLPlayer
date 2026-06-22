@@ -3,6 +3,14 @@ import { spawn } from "node:child_process";
 // Sciezka do binarki yt-dlp. W dev ustawiona w .env.local na ~/.local/bin/yt-dlp.
 const YTDLP_BIN = process.env.YTDLP_BIN || "yt-dlp";
 
+// Pojedyncza sciezka napisow. vttUrl trzymamy tylko po stronie serwera.
+export type SubTrack = {
+  lang: string;
+  name: string;
+  auto: boolean; // true = auto-napisy YouTube
+  vttUrl: string;
+};
+
 export type ResolvedVideo = {
   id: string;
   title: string;
@@ -13,6 +21,7 @@ export type ResolvedVideo = {
   streamUrl: string;
   httpHeaders: Record<string, string>;
   mime: string;
+  subs: SubTrack[];
 };
 
 type CacheEntry = { value: ResolvedVideo; expires: number };
@@ -32,6 +41,38 @@ type YtFormat = {
   protocol?: string;
   http_headers?: Record<string, string>;
 };
+
+type YtSubEntry = { url?: string; ext?: string; name?: string };
+
+// Buduje liste sciezek napisow z info JSON: subtitles (reczne) + automatic_captions (auto).
+// Dla kazdego jezyka bierze format vtt (najlatwiejszy do parsowania).
+function extractSubs(info: {
+  subtitles?: Record<string, YtSubEntry[]>;
+  automatic_captions?: Record<string, YtSubEntry[]>;
+}): SubTrack[] {
+  const out: SubTrack[] = [];
+  const take = (map: Record<string, YtSubEntry[]> | undefined, auto: boolean) => {
+    if (!map) return;
+    for (const [lang, entries] of Object.entries(map)) {
+      const vtt = entries.find((e) => e.ext === "vtt" && e.url);
+      if (!vtt?.url) continue;
+      out.push({ lang, name: vtt.name || lang, auto, vttUrl: vtt.url });
+    }
+  };
+  take(info.subtitles, false);
+  take(info.automatic_captions, true);
+  return out;
+}
+
+// Wybiera domyslna sciezke angielska: reczne 'en' > auto 'en' > dowolne 'en*'.
+export function pickDefaultEnglish(subs: SubTrack[]): SubTrack | null {
+  return (
+    subs.find((s) => !s.auto && s.lang === "en") ||
+    subs.find((s) => s.auto && s.lang === "en") ||
+    subs.find((s) => s.lang.startsWith("en")) ||
+    null
+  );
+}
 
 function runYtDlp(args: string[], timeoutMs = 60000): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -105,6 +146,7 @@ export async function resolveVideo(input: string): Promise<ResolvedVideo> {
     streamUrl: fmt.url,
     httpHeaders: fmt.http_headers ?? {},
     mime: fmt.ext === "webm" ? "video/webm" : "video/mp4",
+    subs: extractSubs(info),
   };
   cache.set(value.id, { value, expires: Date.now() + TTL_MS });
   return value;
