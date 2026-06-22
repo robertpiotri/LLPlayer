@@ -186,7 +186,15 @@ je kolekcjonował. Faza, która domyka sens całego zbierania.
 
 ---
 
-## Faza 6 — Personalizacja i ciągłość
+## Faza 6 — Personalizacja i ciągłość ✅ ZROBIONA
+
+**Status:** zaimplementowana. Serwerowe store'y `history.json` i `prefs.json`
+(`/api/history`, `/api/prefs`). Historia oglądanych z listą „Ostatnio oglądane"
+i ponownym otwarciem; pozycja zapisywana co ~5 s i na pauzie, wznawianie przy
+ponownym otwarciu (seek na `loadedmetadata`). Preferencje: domyślny język źródła
+i tłumaczenia oraz rozmiar napisów — zapisywane i stosowane. Zweryfikowane:
+zapis/lista/usuwanie historii, zapis pozycji (12.5 s), preferencje, oraz
+**trwałość po restarcie serwera**.
 
 **Cel biznesowy:** Utrzymanie użytkownika — aplikacja pamięta ustawienia i postępy,
 więc powrót do nauki jest bezwysiłkowy.
