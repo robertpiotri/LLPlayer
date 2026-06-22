@@ -66,7 +66,8 @@ biznesową i kryteria akceptacji, nie implementację.
 - Faza 2 (napisy ze źródła, EN, własna warstwa) — **zrobiona**.
 - Faza 3 (napisy dwujęzyczne: autorskie EN + PL tłumaczone OpenAI) — **zrobiona**.
 - Faza 4 (zaznaczanie i zapisywanie par fragmentów + kolekcja) — **zrobiona**. 🎉 **koniec MVP (Fazy 1–4)**
-- Następny krok: Faza 5 (nauka fragmentów przez fiszki, z kontekstem).
+- Faza 5 (nauka fiszkami z kontekstem, powtórki SRS, tryb `/study`) — **zrobiona**.
+- Następny krok: Faza 6 (personalizacja i ciągłość: historia, wznawianie, preferencje).
 
 ## Uruchomienie (dev)
 

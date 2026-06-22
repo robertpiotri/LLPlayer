@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { Fragment } from "@/lib/types";
 
@@ -250,11 +251,19 @@ export default function Home() {
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-4 py-10 text-zinc-100">
-      <header>
-        <h1 className="text-2xl font-semibold tracking-tight">LLPlayer Web</h1>
-        <p className="text-sm text-zinc-400">
-          Wklej link z YouTube — napisy EN+PL i zapisywanie fragmentów do nauki.
-        </p>
+      <header className="flex items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">LLPlayer Web</h1>
+          <p className="text-sm text-zinc-400">
+            Wklej link z YouTube — napisy EN+PL i zapisywanie fragmentów do nauki.
+          </p>
+        </div>
+        <Link
+          href="/study"
+          className="shrink-0 rounded-md border border-zinc-700 px-3 py-1.5 text-sm text-zinc-200 hover:bg-zinc-800"
+        >
+          Nauka (fiszki) →
+        </Link>
       </header>
 
       <form onSubmit={load} className="flex gap-2">

@@ -13,9 +13,17 @@ export type Fragment = {
   // Para
   en: string;
   pl: string;
-  // Kontekst (sasiednie linie) — pod Faze 5 (nauka w kontekscie)
+  // Kontekst (sasiednie linie) — nauka w kontekscie
   contextEn: string[];
   contextPl: string[];
+  // Stan powtorek (SRS w stylu Leitnera)
+  box: number; // poziom pudelka (0 = nowa / nieumiana)
+  due: number; // timestamp nastepnej powtorki
+  lastReviewed: number | null;
 };
 
-export type NewFragment = Omit<Fragment, "id" | "createdAt">;
+// Klient wysyla tylko tresc — id, czas utworzenia i stan powtorek ustawia serwer.
+export type NewFragment = Omit<
+  Fragment,
+  "id" | "createdAt" | "box" | "due" | "lastReviewed"
+>;

@@ -151,7 +151,16 @@ dokładnie tak, jak chcę — całymi frazami, dwujęzycznie, z kontekstem.
 
 ---
 
-## Faza 5 — Nauka fragmentów przez fiszki (z kontekstem)
+## Faza 5 — Nauka fragmentów przez fiszki (z kontekstem) ✅ ZROBIONA
+
+**Status:** zaimplementowana. Osobny tryb `/study`: każda zapisana para to fiszka,
+front/rewers z odsłanianiem, przełącznik kierunku EN→PL / PL→EN. Po odsłonięciu
+kontekst: odtwarzanie oryginalnego klipu w pętli [start, end] + sąsiednie linie
+EN/PL. Powtórki w stylu Leitnera (`box`/`due`): „umiem" → wyższy box i późniejszy
+termin, „nie umiem" → reset i powrót jeszcze w tej sesji. Stan powtórek trwały
+(`/api/review` → store JSON). Zweryfikowane: normalizacja starych fragmentów,
+umiem (box 0→1, due +1h), nie umiem (box 0, due +1min), 404 dla złego id, render
+`/study`.
 
 **Cel biznesowy:** Zamienić zebrane pary w realny, powtarzalny proces nauki metodą
 aktywnego przypominania (fiszki) — żebym faktycznie zapamiętywał frazy, nie tylko
