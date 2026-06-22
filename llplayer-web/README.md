@@ -61,7 +61,21 @@ biznesową i kryteria akceptacji, nie implementację.
 
 ## Status
 
-Faza 0 (walidacja i zakres) — **zamknięta**. Następny krok: Faza 1.
+- Faza 0 (walidacja i zakres) — **zamknięta**.
+- Faza 1 (oglądanie filmu z linku YouTube) — **zrobiona** (w `web/`).
+- Następny krok: Faza 2 (napisy ze źródła).
+
+## Uruchomienie (dev)
+
+Wymaga Node oraz binarki `yt-dlp` (ścieżka w `web/.env.local`).
+
+```bash
+cd web
+npm install      # tylko za pierwszym razem
+npm run dev      # http://localhost:3000
+```
+
+Wklej link do filmu z YouTube → film odtwarza się w aplikacji.
 
 ## Uwaga prawna
 

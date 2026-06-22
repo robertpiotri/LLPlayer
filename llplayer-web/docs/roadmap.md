@@ -33,7 +33,17 @@ Pełny dokument: [`phase-0-scope.md`](phase-0-scope.md).
 
 ---
 
-## Faza 1 — Oglądanie filmu z linku online
+## Faza 1 — Oglądanie filmu z linku online ✅ ZROBIONA
+
+**Status:** zaimplementowana w `web/` (Next.js 16 + React 19). Endpoint `resolve`
+(yt-dlp → metadane + format), `stream` proxy z obsługą Range (seek), strona z
+polem na link i natywnym odtwarzaczem. Zweryfikowane: poprawny link gra (200/206),
+seek działa (206 + Content-Range), linki błędne/spoza YouTube → czytelny komunikat.
+
+**Znane ograniczenie (do adresacji później):** odtwarzamy najlepszy format
+*progresywny* (audio+wideo w jednym), co na YouTube oznacza ~360p. Wyższe
+rozdzielczości to DASH (osobne ścieżki) i wymagają łączenia przez ffmpeg —
+zaplanowane jako rozszerzenie przy okazji dalszych faz.
 
 **Cel biznesowy:** Najmniejszy działający produkt — wklejam link i oglądam film w
 aplikacji. Fundament, bez którego reszta nie ma sensu.
