@@ -88,7 +88,22 @@ pobranymi automatycznie z YouTube, bez ręcznego dostarczania plików.
 
 ---
 
-## Faza 3 — Napisy dwujęzyczne
+## Faza 3 — Napisy dwujęzyczne ✅ ZROBIONA
+
+**Status:** zaimplementowana. Dół = autorskie napisy EN (auto-napisy świadomie
+pomijane), góra = PL tłumaczone z EN przez OpenAI (`/api/translate`, cache +
+chunkowanie). Niezależny wybór źródła i celu tłumaczenia, wyłączanie każdej
+ścieżki. Zweryfikowane end-to-end: 6 cue'ów EN → 6 PL 1:1 z czasami, DE→PL,
+cache (1.1s → 0.02s), brak klucza → komunikat 503.
+
+**Ustalenie architektoniczne (ważne):** YouTube blokuje tłumaczenie napisów
+(`tlang`) twardym 429 — także przez yt-dlp. Dlatego PL **generujemy sami** z
+autorskich napisów EN, a nie pobieramy z YouTube. To zgodne z docelową wizją
+(własny silnik tłumaczeń) i daje lepszą jakość.
+
+**Świadomie odłożone:** pobieranie gotowych napisów z zewnątrz (np.
+opensubtitles), gdy film nie ma autorskich — wymaga decyzji o źródle/kluczu.
+Kandydat na osobną fazę.
 
 **Cel biznesowy:** Kluczowy wyróżnik — jednoczesne napisy angielskie i polskie.
 Główny powód, dla którego wybiorę ten produkt zamiast zwykłego odtwarzacza.
@@ -105,7 +120,18 @@ Główny powód, dla którego wybiorę ten produkt zamiast zwykłego odtwarzacza
 
 ---
 
-## Faza 4 — Zaznaczanie i zapisywanie par fragmentów  ⟵ koniec MVP
+## Faza 4 — Zaznaczanie i zapisywanie par fragmentów  ✅ ZROBIONA (koniec MVP)
+
+**Status:** zaimplementowana. Przycisk „Zapisz fragment" pauzuje film i otwiera
+formularz z edytowalnymi polami EN/PL (wstępnie wypełnionymi bieżącą kwestią) —
+ręczna kontrola obu stron. Zapis przez `/api/fragments` do trwałego store'a JSON
+(`web/data/fragments.json`, ignorowany przez git). Kolekcja z listą par, skokiem
+do momentu i usuwaniem. Zapisywany jest moment, źródło i kontekst (sąsiednie
+linie — pod Fazę 5). Zweryfikowane: zapis, lista, walidacja (brak EN/PL → 400),
+usuwanie, oraz **trwałość po pełnym restarcie serwera** (wczytanie z pliku).
+
+**Magazyn danych:** plik JSON po stronie serwera. Dla self-hosted single-user
+wystarczający i łatwy do backupu; przy większej kolekcji można przejść na SQLite.
 
 **Cel biznesowy:** Przekształcić oglądanie w aktywne zbieranie materiału do nauki
 dokładnie tak, jak chcę — całymi frazami, dwujęzycznie, z kontekstem.

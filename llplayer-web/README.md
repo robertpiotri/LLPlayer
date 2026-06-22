@@ -64,7 +64,9 @@ biznesową i kryteria akceptacji, nie implementację.
 - Faza 0 (walidacja i zakres) — **zamknięta**.
 - Faza 1 (oglądanie filmu z linku YouTube) — **zrobiona** (w `web/`).
 - Faza 2 (napisy ze źródła, EN, własna warstwa) — **zrobiona**.
-- Następny krok: Faza 3 (napisy dwujęzyczne EN + PL).
+- Faza 3 (napisy dwujęzyczne: autorskie EN + PL tłumaczone OpenAI) — **zrobiona**.
+- Faza 4 (zaznaczanie i zapisywanie par fragmentów + kolekcja) — **zrobiona**. 🎉 **koniec MVP (Fazy 1–4)**
+- Następny krok: Faza 5 (nauka fragmentów przez fiszki, z kontekstem).
 
 ## Uruchomienie (dev)
 

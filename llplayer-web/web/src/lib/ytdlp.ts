@@ -64,12 +64,13 @@ function extractSubs(info: {
   return out;
 }
 
-// Wybiera domyslna sciezke angielska: reczne 'en' > auto 'en' > dowolne 'en*'.
+// Wybiera domyslna sciezke angielska. Preferujemy GOTOWE (autorskie) napisy
+// i swiadomie unikamy auto-napisow (nizsza jakosc). Jesli nie ma autorskich EN,
+// zwracamy null — UI pokaze, ze gotowych napisow brak (pozniej: pobieranie z zewnatrz).
 export function pickDefaultEnglish(subs: SubTrack[]): SubTrack | null {
   return (
     subs.find((s) => !s.auto && s.lang === "en") ||
-    subs.find((s) => s.auto && s.lang === "en") ||
-    subs.find((s) => s.lang.startsWith("en")) ||
+    subs.find((s) => !s.auto && s.lang.startsWith("en")) ||
     null
   );
 }
